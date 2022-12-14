@@ -4,17 +4,17 @@
     "VERILOG_FILES": ["dir::../../verilog/rtl/defines.v", "dir::../../verilog/rtl/wb_pio_top.v", "dir::../../verilog/rtl/fpga_pio/src/*.v"],
     "CLOCK_PERIOD": 10,
     "CLOCK_PORT": "wb_clk_i",
-    "CLOCK_NET": "counter.clk",
+    "CLOCK_NET": "pio1.clk",
     "FP_SIZING": "absolute",
     "DIE_AREA": "0 0 1900 1600",
     "FP_PIN_ORDER_CFG": "dir::pin_order.cfg",
-    "PL_BASIC_PLACEMENT": 1,
+    "PL_BASIC_PLACEMENT": 0,
     "PL_TARGET_DENSITY": 0.50,
     "SYNTH_NO_FLAT": 0,
-    "VDD_NETS": ["vccd1"],
-    "GND_NETS": ["vssd1"],
+    "VDD_NETS": ["vdd"],
+    "GND_NETS": ["vss"],
     "DIODE_INSERTION_STRATEGY": 4,
-    "RUN_CVC": 1,
+    "RUN_CVC": 0,
     "SYNTH_STRATEGY": "DELAY 4",
     "pdk::sky130*": {
         "FP_CORE_UTIL": 75,
@@ -41,7 +41,6 @@
         "CLOCK_PERIOD": 24.0,
         "FP_CORE_UTIL": 20,
         "RT_MAX_LAYER": "Metal4",
-        "SYNTH_MAX_FANOUT": 4,
-        "PL_TARGET_DENSITY": 0.85
+        "SYNTH_MAX_FANOUT": 4
     }
 }
