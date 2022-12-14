@@ -13,11 +13,13 @@ Refer to [README](docs/source/index.rst) for this sample project documentation.
 You will need a Linux environment with Docker. Once you have that, you can set things up:
 
 ```sh
-mkdir -p dependencies
-export OPENLANE_ROOT=$(pwd)/dependencies/openlane_src # you need to export this whenever you start a new shell
-export PDK_ROOT=$(pwd)/dependencies/pdks # you need to export this whenever you start a new shell
+mkdir -p deps
+export OPENLANE_ROOT=$(pwd)/deps/openlane_src # you need to export this whenever you start a new shell
+export PDK_ROOT=$(pwd)/deps/pdks # you need to export this whenever you start a new shell
 export PDK=gf180mcuC
 ```
+
+These steps are included in `activate-caravel.sh`, which you can just source.
 
 Next, do a one-time setup of the project.
 
