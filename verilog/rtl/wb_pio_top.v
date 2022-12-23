@@ -39,8 +39,16 @@ module wb_pio #(
     parameter BITS = 32
 )(
 `ifdef USE_POWER_PINS
-    inout vdd,	// User area 1 1.8V supply
-    inout vss,	// User area 1 digital ground
+    // SKY130
+    inout vccd1,	// User area 1 1.8V supply
+    inout vssd1,	// User area 1 digital ground
+    inout vdda1,	// User area 1 3.3V supply
+    inout vssa2,	// User area 2 analog ground
+    inout vdda2,	// User area 2 3.3V supply
+    inout vssd2,	// User area 2 digital ground
+    // GF180
+    inout vdd,	    // User area 1 1.8V supply
+    inout vss,    	// User area 1 digital ground
 `endif
 
     // Wishbone Slave ports (WB MI A)
@@ -83,57 +91,26 @@ module wb_pio #(
     wire [31:0] la_write;
 
     // WB MI A
-    assign valid = wbs_cyc_i && wbs_stb_i; 
+    assign valid = wbs_cyc_i && wbs_stb_i && wbs_adr_i[31:16] == 16'h761c;
     assign wstrb = wbs_sel_i & {4{wbs_we_i}};
     assign wdata = wbs_dat_i;
 
     // IO
     assign io_out = count;
-    // assign io_oeb = {(`MPRJ_IO_PADS-1){rst}};
-
-    // IRQ
-    // assign irq = 3'b000;	// Unused
 
     // PIO registers and wires
     reg [31:0]  din;        // Data sent to PIO
     reg [4:0]   index;      // Instruction index
     reg [1:0]   mindex;     // Machine index
 
-    reg [31:0] dout;       // Output from PIO
-    wire [3:0]   action;     // Action to be done by PIO
+    reg [31:0]  dout;       // Output from PIO
+    wire [3:0]  action;     // Action to be done by PIO
     wire        irq0, irq1; // IRQ flags from PIO
     wire [3:0]  tx_full;    // Set when TX fifo is full  
     wire [3:0]  rx_empty;   // Set when RX fifo is empty
 
-    // // LA
-    // assign la_data_out = {{(127-BITS){1'b0}}, count};
-    // // Assuming LA probes [63:32] are for controlling the count register  
-    // assign la_write = ~la_oenb[63:32] & ~{BITS{valid}};
-    // // Assuming LA probes [65:64] are for controlling the count clk & reset  
-    // assign clk = (~la_oenb[64]) ? la_data_in[64]: wb_clk_i;
-    // assign rst = (~la_oenb[65]) ? la_data_in[65]: wb_rst_i;
-
-    // counter #(
-    //     .BITS(BITS)
-    // ) counter(
-    //     .clk(clk),
-    //     .reset(rst),
-    //     .ready(wbs_ack_o),
-    //     .valid(valid),
-    //     .rdata(rdata),
-    //     .wdata(wbs_dat_i),
-    //     .wstrb(wstrb),
-    //     .la_write(la_write),
-    //     .la_input(la_data_in[63:32]),
-    //     .count(count)
-    // );
-
     assign irq[2] = 1'b0;
 
-    reg [3:0] actions[32];
-    reg [4:0] pc;
-    assign action = actions[pc];
-    // assign action = actions[0];
     reg ack;
     assign wbs_ack_o = ack;
     assign wbs_dat_o = dout;
@@ -141,28 +118,26 @@ module wb_pio #(
     always @(posedge wb_clk_i) begin
         if (wb_rst_i) begin
             ack <= 1'b0;
-            pc <= 5'b00000;
         end else begin
             ack <= 1'b0;
-            pc <= pc + 1;
             if (valid && !ack) begin
                 ack <= 1'b1;
-                if ((wbs_adr_i[3:0] == 0) && wbs_we_i) begin
-                    if (wstrb[0]) din[7:0]   <= wbs_dat_i[7:0];
-                    if (wstrb[1]) din[15:8]  <= wbs_dat_i[15:8];
-                    if (wstrb[2]) din[23:16] <= wbs_dat_i[23:16];
-                    if (wstrb[3]) din[31:24] <= wbs_dat_i[31:24];
-                end else if ((wbs_adr_i[3:0] == 4) && wbs_we_i) begin
-                    if (wstrb[0]) mindex[1:0]   <= wbs_dat_i[1:0];
-                end else if ((wbs_adr_i[3:0] == 8) && wbs_we_i) begin
-                    if (wstrb[0]) index[4:0]   <= wbs_dat_i[4:0];
-                end else if ((wbs_adr_i[3:0] == 12) && wbs_we_i) begin
-                    if (wstrb[0]) actions[pc][3:0]   <= wbs_dat_i[3:0];
-                // end else if ((wbs_adr_i[3:0] == 16) && !wbs_we_i) begin
-                    // if (wstrb[0]) wbs_dat_o[7:0] <= dout[7:0];
-                    // if (wstrb[1]) wbs_dat_o[15:8] <= dout[15:8];
-                    // if (wstrb[2]) wbs_dat_o[23:16] <= dout[23:16];
-                    // if (wstrb[3]) wbs_dat_o[31:24] <= dout[31:24];
+                if (wbs_we_i) begin
+                    action[3:0] <= wbs_adr_i[5:2];
+                    if (wbs_we_i) begin
+                        if (wstrb[0]) din[7:0]   <= wbs_dat_i[7:0];
+                        if (wstrb[1]) din[15:8]  <= wbs_dat_i[15:8];
+                        if (wstrb[2]) din[23:16] <= wbs_dat_i[23:16];
+                        if (wstrb[3]) din[31:24] <= wbs_dat_i[31:24];
+                    end else begin
+                        if (wstrb[0]) wbs_dat_o[7:0] <= dout[7:0];
+                        if (wstrb[1]) wbs_dat_o[15:8] <= dout[15:8];
+                        if (wstrb[2]) wbs_dat_o[23:16] <= dout[23:16];
+                        if (wstrb[3]) wbs_dat_o[31:24] <= dout[31:24];
+                    end
+                end else begin
+                    // When there is no action, set the action to `NONE`
+                    action[3:0] <= 4'b0000;
                 end
             end
         end
@@ -190,45 +165,4 @@ module wb_pio #(
     );
 endmodule
 
-// module counter #(
-//     parameter BITS = 32
-// )(
-//     input clk,
-//     input reset,
-//     input valid,
-//     input [3:0] wstrb,
-//     input [BITS-1:0] wdata,
-//     input [BITS-1:0] la_write,
-//     input [BITS-1:0] la_input,
-//     output ready,
-//     output [BITS-1:0] rdata,
-//     output [BITS-1:0] count
-// );
-//     reg ready;
-//     reg [BITS-1:0] count;
-//     reg [BITS-1:0] rdata;
-
-//     always @(posedge clk) begin
-//         if (reset) begin
-//             count <= 0;
-//             ready <= 0;
-//         end else begin
-//             ready <= 1'b0;
-//             if (~|la_write) begin
-//                 count <= count + 1;
-//             end
-//             if (valid && !ready) begin
-//                 ready <= 1'b1;
-//                 rdata <= count;
-//                 if (wstrb[0]) count[7:0]   <= wdata[7:0];
-//                 if (wstrb[1]) count[15:8]  <= wdata[15:8];
-//                 if (wstrb[2]) count[23:16] <= wdata[23:16];
-//                 if (wstrb[3]) count[31:24] <= wdata[31:24];
-//             end else if (|la_write) begin
-//                 count <= la_write & la_input;
-//             end
-//         end
-//     end
-
-// endmodule
 `default_nettype wire
