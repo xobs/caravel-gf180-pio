@@ -16,7 +16,7 @@ You will need a Linux environment with Docker. Once you have that, you can set t
 mkdir -p deps
 export OPENLANE_ROOT=$(pwd)/deps/openlane_src # you need to export this whenever you start a new shell
 export PDK_ROOT=$(pwd)/deps/pdks # you need to export this whenever you start a new shell
-export PDK=gf180mcuC
+export PDK=gf180mcuC # you can also use sky130B
 ```
 
 These steps are included in `activate-caravel.sh`, which you can just source.
@@ -26,3 +26,11 @@ Next, do a one-time setup of the project.
 ```sh
 make setup
 ```
+
+Next, perform the synthesis, which will take anywhere between 30 minutes and 3 hours:
+
+```sh
+make wb_pio
+```
+
+When it's done, the resulting files will be in `openlane/wb_pio/runs/$CURRENT_DATE_TIME/results/final/`.
