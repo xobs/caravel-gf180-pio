@@ -6,41 +6,49 @@
     "CLOCK_PORT": "wb_clk_i",
     "CLOCK_NET": "pio1.clk",
     "FP_SIZING": "absolute",
-    "DIE_AREA": "0 0 1900 1600",
+    "DIE_AREA": "0 0 2900 2000",
     "FP_PIN_ORDER_CFG": "dir::pin_order.cfg",
     "PL_BASIC_PLACEMENT": 0,
-    "PL_TARGET_DENSITY": 0.50,
+    "PL_TARGET_DENSITY": 0.65,
     "SYNTH_NO_FLAT": 0,
-    "VDD_NETS": ["vdd"],
-    "GND_NETS": ["vss"],
     "DIODE_INSERTION_STRATEGY": 4,
     "RUN_CVC": 0,
-    "SYNTH_STRATEGY": "DELAY 4",
+    "RUN_MAGIC": 1,
+    "RUN_KLAYOUT": 0,
+    "SYNTH_STRATEGY": "AREA 2",
+    "SYNTH_AUTONAME": "1",
+    "OPENLANE_VERBOSE": 99,
     "pdk::sky130*": {
-        "FP_CORE_UTIL": 75,
+        "FP_CORE_UTIL": 35,
+        "PL_TARGET_DENSITY": 0.30,
+        "VDD_NETS": ["vccd1"],
+        "GND_NETS": ["vssd1"],
         "RT_MAX_LAYER": "met4",
         "scl::sky130_fd_sc_hd": {
-            "CLOCK_PERIOD": 10
+            "CLOCK_PERIOD": 12
         },
         "scl::sky130_fd_sc_hdll": {
-            "CLOCK_PERIOD": 10
+            "CLOCK_PERIOD": 12
         },
         "scl::sky130_fd_sc_hs": {
-            "CLOCK_PERIOD": 8
+            "CLOCK_PERIOD": 10
         },
         "scl::sky130_fd_sc_ls": {
-            "CLOCK_PERIOD": 10,
+            "CLOCK_PERIOD": 12,
             "SYNTH_MAX_FANOUT": 5
         },
         "scl::sky130_fd_sc_ms": {
-            "CLOCK_PERIOD": 10
+            "CLOCK_PERIOD": 12
         }
     },
     "pdk::gf180mcuC": {
         "STD_CELL_LIBRARY": "gf180mcu_fd_sc_mcu7t5v0",
-        "CLOCK_PERIOD": 24.0,
-        "FP_CORE_UTIL": 20,
+        "CLOCK_PERIOD": 150,
+        "FP_CORE_UTIL": 35,
+        "PL_TARGET_DENSITY": 0.30,
         "RT_MAX_LAYER": "Metal4",
-        "SYNTH_MAX_FANOUT": 4
+        "SYNTH_MAX_FANOUT": 4,
+        "VDD_NETS": ["vdd"],
+        "GND_NETS": ["vss"]
     }
 }
