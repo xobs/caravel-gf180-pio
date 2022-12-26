@@ -1,5 +1,14 @@
 # Caravel user project includes
--v $(USER_PROJECT_VERILOG)/rtl/user_project_wrapper.v	     
--v $(USER_PROJECT_VERILOG)/rtl/user_proj_example.v
-
- 
+-v $(USER_PROJECT_VERILOG)/rtl/user_project_wrapper.v
++incdir+$(USER_PROJECT_VERILOG)/rtl
++incdir+$(USER_PROJECT_VERILOG)/rtl/fpga_pio/src
+-v $(USER_PROJECT_VERILOG)/rtl/wb_pio_top.v
+-v $(USER_PROJECT_VERILOG)/rtl/fpga_pio/src/decoder.v
+-v $(USER_PROJECT_VERILOG)/rtl/fpga_pio/src/divider.v
+-v $(USER_PROJECT_VERILOG)/rtl/fpga_pio/src/fifo.v
+-v $(USER_PROJECT_VERILOG)/rtl/fpga_pio/src/isr.v
+-v $(USER_PROJECT_VERILOG)/rtl/fpga_pio/src/machine.v
+-v $(USER_PROJECT_VERILOG)/rtl/fpga_pio/src/osr.v
+-v $(USER_PROJECT_VERILOG)/rtl/fpga_pio/src/pc.v
+-v $(USER_PROJECT_VERILOG)/rtl/fpga_pio/src/pio.v
+-v $(USER_PROJECT_VERILOG)/rtl/fpga_pio/src/scratch.v
