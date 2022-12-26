@@ -34,3 +34,13 @@ make wb_pio
 ```
 
 When it's done, the resulting files will be in `openlane/wb_pio/runs/$CURRENT_DATE_TIME/results/final/`.
+
+## Running the testbench
+
+You can run the testbench using iverilog, which will generate a `.vcd` file:
+
+```sh
+make verify-wb_pio_test-rtl
+```
+
+You can then inspect the `.vcd` file by using a tool such as `gtkwave` to view `verilog/dv/wb_pio_test/RTL-wb_pio_test.vcd`
