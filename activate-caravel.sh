@@ -8,4 +8,7 @@ fi
 
 export OPENLANE_ROOT=$(pwd)/deps/openlane_src
 export PDK_ROOT=$(pwd)/deps/pdks
-export PDK=gf180mcuC
+export PDK=sky130B
+export PRECHECK_ROOT=$(pwd)/deps/precheck
+export CARAVEL_ROOT=$(pwd)/deps/caravel
+export MCW_ROOT=$(pwd)/deps/mgmt_core_wrapper
