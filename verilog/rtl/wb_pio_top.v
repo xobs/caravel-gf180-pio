@@ -42,13 +42,9 @@ module wb_pio #(
     // SKY130
     inout vccd1,	// User area 1 1.8V supply
     inout vssd1,	// User area 1 digital ground
-    inout vdda1,	// User area 1 3.3V supply
-    inout vssa2,	// User area 2 analog ground
-    inout vdda2,	// User area 2 3.3V supply
-    inout vssd2,	// User area 2 digital ground
-    // GF180
-    inout vdd,	    // User area 1 1.8V supply
-    inout vss,    	// User area 1 digital ground
+    // // GF180
+    // inout vdd,	    // User area 1 1.8V supply
+    // inout vss,    	// User area 1 digital ground
 `endif
 
     // Wishbone Slave ports (WB MI A)
