@@ -17,20 +17,9 @@
 /*
  *-------------------------------------------------------------
  *
- * user_proj_example
+ * wb_pio
  *
- * This is an example of a (trivially simple) user project,
- * showing how the user project can connect to the logic
- * analyzer, the wishbone bus, and the I/O pads.
- *
- * This project generates an integer count, which is output
- * on the user area GPIO pads (digital output only).  The
- * wishbone connection allows the project to be controlled
- * (start and stop) from the management SoC program.
- *
- * See the testbenches in directory "mprj_counter" for the
- * example programs that drive this user project.  The three
- * testbenches are "io_ports", "la_test1", and "la_test2".
+ * Create a PIO block on the Wishbone bus at address 0x3000_0000.
  *
  *-------------------------------------------------------------
  */
