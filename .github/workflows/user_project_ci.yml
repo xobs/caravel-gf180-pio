@@ -87,6 +87,10 @@ jobs:
           make openlane
           make simenv
 
+      - name: Remove bundled .gz files
+        run: |
+          find . -name '*.gz' | xargs rm -f
+
       - name: Check out git submodules
         run: |
           git submodule update --init --recursive
@@ -180,6 +184,10 @@ jobs:
           make install_mcw
           make openlane
           make simenv
+
+      - name: Remove bundled .gz files
+        run: |
+          find . -name '*.gz' | xargs rm -f
 
       - name: Check out git submodules
         run: |
