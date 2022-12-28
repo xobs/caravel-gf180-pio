@@ -87,6 +87,10 @@ jobs:
           make openlane
           make simenv
 
+      - name: Check out git submodules
+        run: |
+          git submodule update --init --recursive
+
       - name: Harden using Openlane
         run: |
           make wb_pio
