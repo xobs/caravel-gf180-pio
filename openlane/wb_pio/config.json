@@ -21,21 +21,9 @@
         "VDD_NETS": ["vccd1"],
         "GND_NETS": ["vssd1"],
         "RT_MAX_LAYER": "met4",
-        "scl::sky130_fd_sc_hd": {
-            "CLOCK_PERIOD": 12
-        },
-        "scl::sky130_fd_sc_hdll": {
-            "CLOCK_PERIOD": 12
-        },
-        "scl::sky130_fd_sc_hs": {
-            "CLOCK_PERIOD": 10
-        },
+        "CLOCK_PERIOD": 20,
         "scl::sky130_fd_sc_ls": {
-            "CLOCK_PERIOD": 12,
             "SYNTH_MAX_FANOUT": 5
-        },
-        "scl::sky130_fd_sc_ms": {
-            "CLOCK_PERIOD": 12
         }
     },
     "pdk::gf180mcuC": {
